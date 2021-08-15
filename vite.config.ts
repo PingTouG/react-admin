@@ -5,6 +5,18 @@ import reactRefresh from '@vitejs/plugin-react-refresh'
 export default defineConfig({
   plugins: [reactRefresh()],
   resolve: {
-    alias: [{ find: '@', replacement: '/src' }],
+    alias: [
+      // 处理通过"~"引入Antd问题
+      { find: /^~/, replacement: '' },
+      { find: '@', replacement: '/src' },
+    ],
+  },
+  // 处理引入Antd样式报错问题
+  css: {
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+      },
+    },
   },
 })
