@@ -2,6 +2,7 @@ import { isUndef } from './tools'
 
 // token
 export const TOKEN = 'ADMIN_TOKEN'
+export const USER_INFO = 'ADMIN_USER_INFO'
 
 export default {
   get: (key: string): any => {

@@ -1,1 +1,1 @@
-export { Spin } from 'antd'
+export { Spin, Form, Button, Input, message } from 'antd'
