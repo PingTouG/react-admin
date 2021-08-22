@@ -3,19 +3,22 @@
 .page {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   height: 100vh;
   padding: 48px;
 
   &__right {
-    width: 60%;
+    width: 600px;
     object-fit: cover;
   }
 
   &__form {
-    width: 35%;
+    z-index: 1;
+    width: 400px;
+    margin-left: 100px;
     padding: 48px;
     border-radius: @base-radius;
+    background-color: #fff;
     box-shadow: @base-shadow;
 
     &-title {
@@ -26,6 +29,22 @@
 
     &-icon {
       color: rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .page {
+    justify-content: center;
+
+    &__right {
+      position: absolute;
+      top: 0;
+      width: 350px;
+    }
+
+    &__form {
+      margin: 70px 0 0;
     }
   }
 }
