@@ -1,0 +1,55 @@
+@import '~antd/lib/style/themes/default.less';
+@import '../../assets/styles/mixin.less';
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: @layout-header-height;
+  padding: 0 8px;
+
+  &-img {
+    height: calc(@layout-header-height / 2);
+    object-fit: cover;
+  }
+
+  &-text {
+    height: calc(@layout-header-height / 2);
+    margin-left: 8px;
+    animation: logo-text-hide 0.3s;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    .ellipsis(1);
+  }
+}
+
+.header {
+  padding: 0 12px !important;
+  background: #fff !important;
+}
+
+.collapsed-trigger {
+  font-size: 20px;
+}
+
+.content {
+  padding: 12px;
+}
+
+@keyframes logo-text-hide {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  80% {
+    display: none;
+    opacity: 0;
+  }
+
+  100% {
+    display: unset;
+    opacity: 1;
+  }
+}
