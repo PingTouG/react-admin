@@ -1,18 +1,17 @@
+import type { ReactElement } from 'react'
 import React from 'react'
-import { withRouter } from 'react-router'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useLocation } from 'react-router-dom'
 import storage, { TOKEN } from '@/utils/storage'
 
-const AuthRoute = withRouter((props: any) => {
-  const { children, history } = props
-
+const AuthRoute = ({ children }: { children: ReactElement }): ReactElement => {
+  const location = useLocation()
   const token = storage.get(TOKEN)
 
-  if (history.location.pathname !== '/login' && !token) {
+  if (location.pathname !== '/login' && !token) {
     return <Redirect to="/login" />
   }
 
   return children
-})
+}
 
 export default AuthRoute

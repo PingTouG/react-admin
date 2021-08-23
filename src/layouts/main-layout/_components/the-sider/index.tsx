@@ -7,7 +7,7 @@ import { useRecoilValue } from 'recoil'
 import TheLogo from './the-logo'
 import TheMenu from './the-menu'
 import { mainRoutes } from '@/router'
-import { withRouter } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { activePathAtom } from '@/store/app'
 
@@ -29,9 +29,11 @@ const getOpenKeys = (path: string, routes: Array<RouteConfigMeta>): Array<string
   return []
 }
 
-const TheSider = withRouter((props: any): ReactElement => {
+const TheSider = (): ReactElement => {
+  const location = useLocation()
+  const history = useHistory()
+
   const collapsed = useRecoilValue(collapsedAtom)
-  const { location, history } = props
   const [activePath, setActivePath] = useRecoilState(activePathAtom(location.pathname))
   const [selectedKeys, sekectSelectedKeys] = useState([activePath])
   const [openKeys, setOpenKeys] = useState<Array<string>>([])
@@ -45,7 +47,7 @@ const TheSider = withRouter((props: any): ReactElement => {
     // 设置当前打开菜单组
     const openKeys = getOpenKeys(location.pathname, mainRoutes)
     setOpenKeys(openKeys)
-    sekectSelectedKeys(location.pathname)
+    sekectSelectedKeys([location.pathname])
   }, [location, collapsed])
 
   return (
@@ -62,6 +64,6 @@ const TheSider = withRouter((props: any): ReactElement => {
       />
     </Sider>
   )
-})
+}
 
 export default TheSider
