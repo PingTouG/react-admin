@@ -10,3 +10,8 @@ export const activePathAtom = atomFamily({
   key: 'activePathAtom',
   default: (path: string) => path,
 })
+// 是否为深色模式
+export const isDarkModeAtom = atom({
+  key: 'isDarkModeAtom',
+  default: false,
+})

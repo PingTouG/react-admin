@@ -17,10 +17,14 @@
     height: calc(@layout-header-height / 2);
     margin-left: 8px;
     animation: logo-text-hide 0.3s;
-    color: #fff;
+    color: #000;
     font-size: 18px;
     font-weight: 600;
     .ellipsis(1);
+
+    &--dark {
+      color: #fff;
+    }
   }
 }
 
@@ -31,18 +35,37 @@
   padding: 0 12px !important;
   background: #fff !important;
 
-  &__left {
+  &__left,
+  &__right {
     display: flex;
     align-items: center;
   }
 }
 
-.collapsed-trigger {
+.theme-mode {
+  margin-right: 12px;
+}
+
+.collapsed-trigger,
+.message {
   font-size: 20px;
+  cursor: pointer;
 }
 
 .breadcrumb {
   margin-left: 12px;
+}
+
+.tools {
+  margin: -8px 0 0 24px;
+}
+
+.user {
+  cursor: pointer;
+}
+
+.username {
+  margin-left: 8px;
 }
 
 .content {

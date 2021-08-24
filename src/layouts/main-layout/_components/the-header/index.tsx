@@ -1,46 +1,36 @@
-import { ReactElement, useEffect, useState } from 'react'
-import type { RouteConfigMeta } from '@/@types'
+import type { ReactElement } from 'react'
 import React, { createElement } from 'react'
 import classes from '@/layouts/main-layout/index.module.less'
-import { Layout } from '@/antd'
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@/antd/icon'
-import { collapsedAtom } from '@/store/app'
+import { Badge, Layout, Switch } from '@/antd'
+import { MenuUnfoldOutlined, MenuFoldOutlined, BellOutlined } from '@/antd/icon'
+import { collapsedAtom, isDarkModeAtom } from '@/store/app'
 import { useRecoilState } from 'recoil'
 import TheBreadcrumb from './the-breadcrumb'
-import { useLocation } from 'react-router-dom'
-import { mainRoutes } from '@/router'
+import TheTools from './the-tools'
+import storage, { IS_DARK_MODE } from '@/utils/storage'
+import { isUndef } from '@/utils/tools'
+import { useEffectOnce } from 'react-use'
 
 const { Header } = Layout
 
-const getBreadcrumbs = (path: string, routes: Array<RouteConfigMeta>): Array<string> => {
-  for (const item of routes) {
-    if (item.path === path) {
-      return [item?.meta?.menu?.text]
-    }
-    if (item?.routes) {
-      const target = item.routes.find((route: RouteConfigMeta) => route.path === path)
-      if (target) {
-        return [item?.meta?.menu?.text, target?.meta?.menu?.text]
-      }
-
-      const names = getBreadcrumbs(path, item.routes)
-      return names.length > 0 ? [item?.meta?.menu?.text, ...names] : names
-    }
+const getDarkMode = (): boolean => {
+  const isDarkMode = storage.get(IS_DARK_MODE)
+  if (!isUndef(isDarkMode)) {
+    return isDarkMode
   }
-
-  return []
+  const nowHours = new Date().getHours()
+  return nowHours > 19 || nowHours < 6
 }
 
 const TheHeader = (): ReactElement => {
   const [collapsed, setCollapsed] = useRecoilState(collapsedAtom)
   const onCollapsedTrigger = () => setCollapsed((status) => !status)
-  const [breadcrumbs, setBreadcrumbs] = useState<Array<string>>([])
-  const location = useLocation()
-
-  useEffect(() => {
-    const breadcrumbs = getBreadcrumbs(location.pathname, mainRoutes)
-    setBreadcrumbs(breadcrumbs)
-  }, [location, setBreadcrumbs])
+  const [isDarkMode, setIsDarkMode] = useRecoilState(isDarkModeAtom)
+  const onTriggerDarkMode = (val: boolean) => {
+    storage.set(IS_DARK_MODE, val)
+    setIsDarkMode(val)
+  }
+  useEffectOnce(() => setIsDarkMode(getDarkMode()))
 
   return (
     <Header className={classes.header}>
@@ -49,7 +39,21 @@ const TheHeader = (): ReactElement => {
           className: classes.collapsedTrigger,
           onClick: onCollapsedTrigger,
         })}
-        <TheBreadcrumb data={breadcrumbs} />
+        <TheBreadcrumb />
+      </div>
+      <div className={classes.headerRight}>
+        <div className={classes.themeMode}>
+          <Switch
+            checked={isDarkMode}
+            checkedChildren="🌜"
+            unCheckedChildren="🌞"
+            onChange={onTriggerDarkMode}
+          />
+        </div>
+        <Badge count={1}>
+          <BellOutlined className={classes.message} />
+        </Badge>
+        <TheTools />
       </div>
     </Header>
   )

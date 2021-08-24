@@ -1,8 +1,8 @@
-import type { ReactElement } from 'react'
+import { ReactElement, useMemo } from 'react'
 import type { RouteConfigMeta } from '@/@types'
 import React, { useEffect, useState } from 'react'
 import { Layout } from '@/antd'
-import { collapsedAtom } from '@/store/app'
+import { collapsedAtom, isDarkModeAtom } from '@/store/app'
 import { useRecoilValue } from 'recoil'
 import TheLogo from './the-logo'
 import TheMenu from './the-menu'
@@ -34,6 +34,7 @@ const TheSider = (): ReactElement => {
   const history = useHistory()
 
   const collapsed = useRecoilValue(collapsedAtom)
+  const isDarkMode = useRecoilValue(isDarkModeAtom)
   const [activePath, setActivePath] = useRecoilState(activePathAtom(location.pathname))
   const [selectedKeys, sekectSelectedKeys] = useState([activePath])
   const [openKeys, setOpenKeys] = useState<Array<string>>([])
@@ -50,12 +51,14 @@ const TheSider = (): ReactElement => {
     sekectSelectedKeys([location.pathname])
   }, [location, collapsed])
 
+  const theme = useMemo(() => (isDarkMode ? 'dark' : 'light'), [isDarkMode])
+
   return (
-    <Sider width={200} trigger={null} collapsible collapsed={collapsed}>
+    <Sider theme={theme} width={200} trigger={null} collapsible collapsed={collapsed}>
       <TheLogo />
       <TheMenu
         mode="inline"
-        theme="dark"
+        theme={theme}
         routes={mainRoutes}
         selectedKeys={selectedKeys}
         openKeys={openKeys}

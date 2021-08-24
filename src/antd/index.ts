@@ -1,1 +1,16 @@
-export { Spin, Form, Button, Input, message, Layout, Menu, Breadcrumb } from 'antd'
+export {
+  ConfigProvider,
+  Spin,
+  Form,
+  Button,
+  Input,
+  message,
+  Layout,
+  Menu,
+  Breadcrumb,
+  Badge,
+  Dropdown,
+  Avatar,
+  Modal,
+  Switch,
+} from 'antd'
