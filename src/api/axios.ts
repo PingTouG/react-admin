@@ -3,6 +3,10 @@ import type { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios'
 import storage, { TOKEN, USER_INFO } from '@/utils/storage'
 import { message } from '@/antd'
 import { isUndef } from '@/utils/tools'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+NProgress.configure({ showSpinner: false })
 
 const instance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL as string,
@@ -10,6 +14,7 @@ const instance: AxiosInstance = axios.create({
 
 instance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
+    NProgress.start()
     const token = storage.get(TOKEN)
     !isUndef(token) && (config.headers['token'] = token)
 
@@ -32,10 +37,13 @@ instance.interceptors.response.use(
       storage.remove(USER_INFO)
       return Promise.reject(response.data)
     }
+    NProgress.done()
 
     return response.data
   },
   async (error) => {
+    NProgress.done()
+
     if (error.response) {
       if (error.response.status === 401 || error?.data?.code === '401') {
         storage.remove(TOKEN)
