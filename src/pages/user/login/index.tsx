@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react'
 import type { LoginParams } from '@/@types'
 import React, { useState } from 'react'
-import './index.less'
+import classes from './index.module.less'
 import bg from '@/assets/images/user/login-bg.png'
 import { Form, Input, Button, message } from '@/antd'
 import { UserOutlined, LockOutlined } from '@/antd/icon'
@@ -34,18 +34,21 @@ const Login = (): ReactElement => {
     }
   }
   return (
-    <div className="page">
-      <img className="page__right" src={bg} />
-      <Form className="page__form" onFinish={onLogin}>
+    <div className={classes.page}>
+      <img className={classes.pageRight} src={bg} />
+      <Form className={classes.pageForm} onFinish={onLogin}>
         <Form.Item>
-          <h3 className="page__form-title">{appName}登录</h3>
+          <h3 className={classes.pageFormTitle}>{appName}登录</h3>
         </Form.Item>
         <Form.Item name="username" rules={rules.username}>
-          <Input prefix={<UserOutlined className="page__form-icon" />} placeholder="请输入账号" />
+          <Input
+            prefix={<UserOutlined className={classes.pageFormIcon} />}
+            placeholder="请输入账号"
+          />
         </Form.Item>
         <Form.Item name="password" rules={rules.password}>
           <Input.Password
-            prefix={<LockOutlined className="page__form-icon" />}
+            prefix={<LockOutlined className={classes.pageFormIcon} />}
             placeholder="请输入密码"
           />
         </Form.Item>
